@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List</title>
+    <script src="../../dist/main.js?12"></script>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<script>
+    const root = document.getElementById('root');
+    const vDom = new window.DvDOM({
+        onNodeChange(newElement, oldElement) {
+            console.log(newElement, oldElement)
+        }
+    });
+
+    let newNode;
+    let oldNode = null;
+
+    setInterval(() => {
+
+        newNode = {
+            type: 'span',
+            children: ['sono le ore: ', new Date().toLocaleTimeString()]
+        };
+
+        vDom.update(
+            root,
+            newNode,
+            oldNode
+        );
+
+        oldNode = Object.assign({}, newNode);
+    })
+</script>
+</html>

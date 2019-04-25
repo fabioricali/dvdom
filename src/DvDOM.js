@@ -18,47 +18,32 @@ class DvDOM {
     constructor(cfg) {
         this.cfg = Object.assign({}, cfg);
     }
-    _create(root, node) {
-
-        let $el;
-
-        if (typeof node === 'string') {
-            $el = document.createTextNode(node);
-        } else {
-            $el = document.createElement(node.type);
-            node.children
-                .map(item => this.create(root, item))
-                .forEach($el.appendChild.bind($el));
-        }
-
-        if (this.cfg.onCreateNode) {
-            this.cfg.onCreateNode($el);
-        }
-
-        return root.appendChild($el);
-    }
 
     create(root, node) {
+
+        if (this.cfg.onBeforeNodeCreate && this.cfg.onBeforeNodeCreate(root, node) === false) {
+            return false;
+        }
+
         let element;
 
         if (node && typeof node === 'object') {
-
             // Creo l'elemento e lo metto nella root
             element = document.createElement(node.type);
-
-            // Scorro eventuali children
-            node.children.forEach(child => {
-                this.update(element, child)
-            });
-
         } else {
             // Creo l'elemento testo e lo metto nella root
             element = document.createTextNode(node);
         }
 
-        if (this.cfg.onCreateNode) {
-            this.cfg.onCreateNode(element);
+        if (this.cfg.onNodeCreate) {
+            this.cfg.onNodeCreate(element);
         }
+
+        // Scorro eventuali children
+        if (Array.isArray(node.children))
+            node.children.forEach(child => {
+                this.update(element, child)
+            });
 
         return root.appendChild(element);
     }
@@ -71,28 +56,38 @@ class DvDOM {
         if (!oldNode) {
             this.create(root, newNode);
         } else if (!newNode) {
+
+            if (this.cfg.onBeforeRemoveNode
+                && this.cfg.onBeforeRemoveNode(root.childNodes[index], {root, newNode, oldNode, index}) === false) {
+                return;
+            }
+
             // Elimino l'elemento
             let oldElement = root.removeChild(root.childNodes[index]);
 
-            if (this.cfg.onRemoveNode) {
-                this.cfg.onRemoveNode(oldElement);
+            if (this.cfg.onNodeRemove) {
+                this.cfg.onNodeRemove(oldElement, {root, newNode, oldNode, index});
             }
 
         } else if (isChanged(newNode, oldNode)) {
             let oldElement = root.childNodes[index];
             let newElement = this.create(root, newNode);
 
-            if (this.cfg.onBeforeChangeNode) {
-                this.cfg.onBeforeChangeNode(newElement, oldElement);
+            if (this.cfg.onBeforeNodeChange
+                && this.cfg.onBeforeNodeChange(newElement, oldElement, {root, newNode, oldNode, index}) === false) {
+                return;
             }
 
+            // Sostituisco il vecchio elemento con quello nuovo
             root.replaceChild(newElement, oldElement);
 
-            if (this.cfg.onChangeNode) {
-                this.cfg.onChangeNode(newElement, oldElement);
+            if (this.cfg.onNodeChange) {
+                this.cfg.onNodeChange(newElement, oldElement, {root, newNode, oldNode, index});
             }
 
         } else if (newNode.type){
+
+            if(!Array.isArray(newNode.children) || !Array.isArray(oldNode.children)) return;
 
             const newLength = newNode.children.length;
             const oldLength = oldNode.children.length;

@@ -195,10 +195,10 @@ describe('DvDOM', function () {
 
     it('create html element and update with the same nodes', function () {
         const vdom = new DvDOM({
-            onCreateNode(node) {
-                console.log('onCreateNode', node)
+            onNodeCreate(node) {
+                console.log('onNodeCreate', node)
             },
-            onChangeNode(newNode, oldNode) {
+            onNodeChange(newNode, oldNode) {
                 throw new Error('Node is changed');
             }
         });
@@ -235,14 +235,14 @@ describe('DvDOM', function () {
     it('create html element list and remove an item', function () {
         let onCreate = 0;
         const vdom = new DvDOM({
-            onCreateNode(node) {
+            onNodeCreate(node) {
                 onCreate++;
                 if (onCreate > 11)
                     throw new Error('Create must be 11');
-                console.log('onCreateNode', node);
+                console.log('onNodeCreate', node);
             },
-            onChangeNode(newNode, oldNode) {
-                console.log('onChangeNode', newNode.textContent, oldNode.textContent);
+            onNodeChange(newNode, oldNode) {
+                console.log('onNodeChange', newNode.textContent, oldNode.textContent);
                 be.err.equal(newNode.textContent, '3 item');
                 be.err.equal(oldNode.textContent, '2 item');
             }
@@ -331,17 +331,17 @@ describe('DvDOM', function () {
     it('create html element list with other element and remove an item', function () {
         let onCreate = 0;
         const vdom = new DvDOM({
-            onCreateNode(node) {
+            onNodeCreate(node) {
                 onCreate++;
                 if (onCreate > 11)
                     throw new Error('Create must be 11');
-                console.log('onCreateNode', node, onCreate);
+                console.log('onNodeCreate', node, onCreate);
             },
-            onChangeNode(newNode, oldNode) {
-                console.log('onChangeNode', newNode.textContent, oldNode.textContent);
+            onNodeChange(newNode, oldNode) {
+                console.log('onNodeChange', newNode.textContent, oldNode.textContent);
             },
-            onRemoveNode(oldNode) {
-                console.log('onRemoveNode', oldNode);
+            onNodeRemove(oldNode) {
+                console.log('onNodeRemove', oldNode);
             }
         });
         const root = document.getElementById('root');
@@ -431,19 +431,19 @@ describe('DvDOM', function () {
     it('create html element list with custom element and remove an item', function () {
         let onCreate = 0;
         const vdom = new DvDOM({
-            onCreateNode(node) {
+            onNodeCreate(node) {
                 onCreate++;
                 if (onCreate > 11)
                     throw new Error('Create must be 11');
-                console.log('onCreateNode', node, onCreate);
+                console.log('onNodeCreate', node, onCreate);
             },
-            onChangeNode(newNode, oldNode) {
-                console.log('onChangeNode', newNode.textContent, oldNode.textContent);
+            onNodeChange(newNode, oldNode) {
+                console.log('onNodeChange', newNode.textContent, oldNode.textContent);
                 be.err.equal(newNode.textContent, '3 item');
                 be.err.equal(oldNode.textContent, '2 item');
             },
-            onRemoveNode(oldNode) {
-                console.log('onRemoveNode', oldNode);
+            onNodeRemove(oldNode) {
+                console.log('onNodeRemove', oldNode);
             }
         });
         const root = document.getElementById('root');
