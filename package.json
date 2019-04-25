@@ -1,0 +1,26 @@
+{
+  "name": "dvdom",
+  "version": "0.0.0",
+  "description": "Virtual DOM used by Doz",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack ",
+    "test": "mocha test"
+  },
+  "keywords": [
+    "vdom",
+    "virtual",
+    "dom",
+    "doz"
+  ],
+  "author": "Fabio Ricali",
+  "license": "MIT",
+  "devDependencies": {
+    "bejs": "^2.0.1",
+    "jsdom": "^15.0.0",
+    "jsdom-global": "^3.0.2",
+    "mocha": "^6.1.4",
+    "webpack": "^4.30.0",
+    "webpack-cli": "^3.3.1"
+  }
+}
