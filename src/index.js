@@ -1,1 +1,1 @@
-module.exports = global.DvDOM = require('./DvDOM');
+module.exports = global.Vdom = require('./vdom');

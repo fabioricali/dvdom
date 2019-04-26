@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Clock</title>
-    <script src="../../dist/main.js?124555"></script>
+    <script src="../../dist/main.js?1243555"></script>
 </head>
 <body>
     <div id="root"></div>
 </body>
 <script>
     const root = document.getElementById('root');
-    const vDom = new window.DvDOM({
+    const vdom = new window.Vdom({
         onNodeCreate(newElement) {
             console.log(newElement)
         },
@@ -29,7 +29,7 @@
             children: ['sono le ore: ', new Date().toLocaleTimeString(), {type: 'a-custom'}]
         };
 
-        vDom.update(
+        vdom.update(
             root,
             newNode,
             oldNode

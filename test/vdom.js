@@ -1,4 +1,4 @@
-const DvDOM = require('../src/DvDOM');
+const Vdom = require('../src/vdom');
 const be = require('bejs');
 
 describe('DvDOM', function () {
@@ -7,11 +7,11 @@ describe('DvDOM', function () {
     });
 
     it('should be ok', function () {
-        new DvDOM();
+        new Vdom();
     });
 
     it('create first html element', function () {
-        const dom = new DvDOM();
+        const dom = new Vdom();
 
         const newNode = {
             type: 'div',
@@ -30,7 +30,7 @@ describe('DvDOM', function () {
     });
 
     it('create inner html element', function () {
-        const dom = new DvDOM();
+        const dom = new Vdom();
 
         const newNode = {
             type: 'div',
@@ -72,7 +72,7 @@ describe('DvDOM', function () {
     });
 
     it('create html element with text inside', function () {
-        const dom = new DvDOM();
+        const dom = new Vdom();
 
         const newNode = {
             type: 'div',
@@ -91,7 +91,7 @@ describe('DvDOM', function () {
     });
 
     it('create html element with text inside and update it', function () {
-        const dom = new DvDOM();
+        const dom = new Vdom();
         const root = document.getElementById('root');
 
         dom.update(root, {
@@ -123,7 +123,7 @@ describe('DvDOM', function () {
     });
 
     it('create html element with text inside and remove it after', function () {
-        const dom = new DvDOM();
+        const dom = new Vdom();
         const root = document.getElementById('root');
 
         dom.update(root, {
@@ -155,7 +155,7 @@ describe('DvDOM', function () {
     });
 
     it('create html element with text inside and update it with other element', function () {
-        const dom = new DvDOM();
+        const dom = new Vdom();
         const root = document.getElementById('root');
 
         dom.update(root, {
@@ -194,7 +194,7 @@ describe('DvDOM', function () {
     });
 
     it('create html element and update with the same nodes', function () {
-        const vdom = new DvDOM({
+        const vdom = new Vdom({
             onNodeCreate(node) {
                 console.log('onNodeCreate', node)
             },
@@ -234,7 +234,7 @@ describe('DvDOM', function () {
 
     it('create html element list and remove an item', function () {
         let onCreate = 0;
-        const vdom = new DvDOM({
+        const vdom = new Vdom({
             onNodeCreate(node) {
                 onCreate++;
                 if (onCreate > 11)
@@ -330,7 +330,7 @@ describe('DvDOM', function () {
 
     it('create html element list with other element and remove an item', function () {
         let onCreate = 0;
-        const vdom = new DvDOM({
+        const vdom = new Vdom({
             onNodeCreate(node) {
                 onCreate++;
                 if (onCreate > 11)
@@ -430,7 +430,7 @@ describe('DvDOM', function () {
 
     it('create html element list with custom element and remove an item', function () {
         let onCreate = 0;
-        const vdom = new DvDOM({
+        const vdom = new Vdom({
             onNodeCreate(node) {
                 onCreate++;
                 if (onCreate > 11)
