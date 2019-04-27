@@ -1,1 +1,1 @@
-module.exports = global.Vdom = require('./Node');
+module.exports = global.VNode = require('./Node');

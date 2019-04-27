@@ -3,11 +3,19 @@ const events = require('./events');
 class Attribute {
 
     createAttributes(element, props) {
+        if (events.callBeforeAttributesCreate(this, element, props) === false) {
+            return;
+        }
+
         const propsKeys = Object.keys(props || {});
 
         for(let i = 0, len = propsKeys.length; i < len; i++) {
-            this.setAttribute(element, propsKeys[i], props[propsKeys[i]]);
+            if(this.setAttribute(element, propsKeys[i], props[propsKeys[i]])) {
+                events.callAttributeCreate(this, element, propsKeys[i], props[propsKeys[i]]);
+            }
         }
+
+        events.callAttributesCreate(this, element, props);
     }
 
     setAttribute(element, name, value) {
@@ -31,6 +39,8 @@ class Attribute {
         }
 
         events.callAttributeSet(this, element, name, value);
+
+        return true;
     }
 
     removeAttribute(element, name) {
@@ -38,26 +48,39 @@ class Attribute {
             return;
         }
         element.removeAttribute(name);
+
+        events.callAttributeRemove(this, element, name);
+
+        return true;
     }
 
     updateAttributes(element, newProps, oldProps = {}) {
         const props = Object.assign({}, newProps, oldProps);
-        let updated = [];
+
         Object.keys(props).forEach(name => {
             if(element.nodeType !== 1) return;
 
             let newVal = newProps[name];
             let oldVal = oldProps[name];
 
+            let isChanged = false;
+
+            if (events.callBeforeAttributeChange(this, element, newVal, oldVal) === false) {
+                return;
+            }
+
             if (newVal === '') {
-                this.removeAttribute(element, name);
+                isChanged = this.removeAttribute(element, name);
             } else if (oldVal === '' || newVal !== oldVal) {
-                this.setAttribute(element, name, newVal);
+                isChanged = this.setAttribute(element, name, newVal);
+            }
+
+            if (isChanged) {
+                events.callAttributeChange(this, element, newVal, oldVal);
             }
 
         });
 
-        return updated;
     }
 
 }

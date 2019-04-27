@@ -6,16 +6,29 @@
     <script src="../../dist/main.js?1243555"></script>
 </head>
 <body>
-    <div id="root"></div>
+<div id="root"></div>
 </body>
 <script>
+    function getRandomColor() {
+        //return Math.random();
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+
     const root = document.getElementById('root');
-    const vdom = new window.Node({
+    const node = new window.VNode({
         onNodeCreate(newElement) {
             console.log(newElement)
         },
         onNodeChange(newElement, oldElement) {
             console.log(newElement, oldElement)
+        },
+        onAttributeChange(element, newValue) {
+            console.log('attribute changes', newValue)
         }
     });
 
@@ -26,16 +39,27 @@
 
         newVnode = {
             type: 'span',
-            children: ['sono le ore: ', new Date().toLocaleTimeString(), {type: 'a-custom'}]
+            children: [
+                'sono le ore: ', new Date().toLocaleTimeString(),
+                {
+                    type: 'div',
+                    children: ['box'],
+                    props: {
+                        style: 'background: ' + getRandomColor(),
+                        height: '40px',
+                        width: '40px'
+                    }
+                }
+            ]
         };
 
-        vdom.update(
+        node.render(
             root,
             newVnode,
             oldVnode
         );
 
         oldVnode = Object.assign({}, newVnode);
-    })
+    }, 1000)
 </script>
 </html>

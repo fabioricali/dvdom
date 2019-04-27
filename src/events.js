@@ -36,35 +36,57 @@ function callNodeChange(context, ...args) {
 }
 
 function callBeforeAttributesCreate(context, ...args) {
-
+    if (typeof context.cfg.onBeforeAttributesCreate === 'function') {
+        return context.cfg.onBeforeAttributesCreate.apply(context, args);
+    }
 }
 
 function callAttributesCreate(context, ...args) {
+    if (typeof context.cfg.onAttributesCreate === 'function') {
+        context.cfg.onAttributesCreate.apply(context, args);
+    }
+}
 
+function callAttributeCreate(context, ...args) {
+    if (typeof context.cfg.onAttributeCreate === 'function') {
+        context.cfg.onAttributeCreate.apply(context, args);
+    }
 }
 
 function callBeforeAttributeSet(context, ...args) {
-
+    if (typeof context.cfg.onBeforeAttributeSet === 'function') {
+        return context.cfg.onBeforeAttributeSet.apply(context, args);
+    }
 }
 
 function callAttributeSet(context, ...args) {
-
+    if (typeof context.cfg.onAttributeSet === 'function') {
+        context.cfg.onAttributeSet.apply(context, args);
+    }
 }
 
 function callBeforeAttributeRemove(context, ...args) {
-
+    if (typeof context.cfg.onBeforeAttributeRemove === 'function') {
+        return context.cfg.onBeforeAttributeRemove.apply(context, args);
+    }
 }
 
 function callAttributeRemove(context, ...args) {
-
+    if (typeof context.cfg.onAttributeRemove === 'function') {
+        context.cfg.onAttributeRemove.apply(context, args);
+    }
 }
 
 function callBeforeAttributeChange(context, ...args) {
-
+    if (typeof context.cfg.onBeforeAttributeChange === 'function') {
+        return context.cfg.onBeforeAttributeChange.apply(context, args);
+    }
 }
 
 function callAttributeChange(context, ...args) {
-
+    if (typeof context.cfg.onAttributeChange === 'function') {
+        context.cfg.onAttributeChange.apply(context, args);
+    }
 }
 
 module.exports = {
@@ -76,6 +98,7 @@ module.exports = {
     callNodeChange,
     callBeforeAttributesCreate,
     callAttributesCreate,
+    callAttributeCreate,
     callBeforeAttributeSet,
     callAttributeSet,
     callBeforeAttributeRemove,

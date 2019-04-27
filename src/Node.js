@@ -30,8 +30,8 @@ class Node extends Attribute {
 
         // Scorro eventuali children
         if (Array.isArray(vNode.children))
-            vNode.children.forEach(child => {
-                this.render(element, child)
+            vNode.children.forEach(vChild => {
+                this.createNode(element, vChild)
             });
 
         return root.appendChild(element);
