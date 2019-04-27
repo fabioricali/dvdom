@@ -158,7 +158,7 @@ function setBind($target, name, value, cmp) {
     if (!isBindAttribute(name) || !canBind($target)) return;
     if (typeof cmp.props[value] !== 'undefined') {
 
-        let events = ['compositionstart', 'compositionend', 'input', 'change'];
+        let events = ['compositionstart', 'compositionend', 'input', 'changeNode'];
 
         events.forEach(function (event) {
             $target.addEventListener(event, function (e) {

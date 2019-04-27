@@ -16,23 +16,23 @@
         }
     });
 
-    let newNode;
-    let oldNode = null;
+    let newVnode;
+    let oldVnode = null;
 
     setInterval(() => {
 
-        newNode = {
+        newVnode = {
             type: 'span',
             children: ['sono le ore: ', new Date().toLocaleTimeString()]
         };
 
         vDom.update(
             root,
-            newNode,
-            oldNode
+            newVnode,
+            oldVnode
         );
 
-        oldNode = Object.assign({}, newNode);
+        oldVnode = Object.assign({}, newVnode);
     })
 </script>
 </html>

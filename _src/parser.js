@@ -69,7 +69,7 @@ function compile(data) {
 
         if (lastTextPos > -1) {
             if (lastTextPos > -1 && lastTextPos + match[0].length < REGEX.HTML_MARKUP.lastIndex) {
-                // remove new line space
+                // removeNode new line space
                 const text = removeNLS(data.substring(lastTextPos, REGEX.HTML_MARKUP.lastIndex - match[0].length));
                 // if has content
                 if (text)
