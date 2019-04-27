@@ -20,6 +20,7 @@ class Attribute {
 
     setAttribute(element, name, value) {
         const beforeAttributeSet = events.callBeforeAttributeSet(this, element, name, value);
+
         if (beforeAttributeSet === false) {
             return;
         } else if (beforeAttributeSet && typeof beforeAttributeSet === 'object') {
@@ -27,16 +28,7 @@ class Attribute {
             value = beforeAttributeSet.hasOwnProperty(value) ? beforeAttributeSet.value : value;
         }
 
-        if (typeof value === 'object') {
-            try {
-                element.setAttribute(name, JSON.stringify(value));
-            } catch (e) {
-
-            }
-        } else {
-            if (value === undefined) value = '';
-            element.setAttribute(name, value);
-        }
+        element.setAttribute(name, value);
 
         events.callAttributeSet(this, element, name, value);
 
