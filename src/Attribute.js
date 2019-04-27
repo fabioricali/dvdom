@@ -9,8 +9,8 @@ class Attribute {
 
         const propsKeys = Object.keys(props || {});
 
-        for(let i = 0, len = propsKeys.length; i < len; i++) {
-            if(this.setAttribute(element, propsKeys[i], props[propsKeys[i]])) {
+        for (let i = 0, len = propsKeys.length; i < len; i++) {
+            if (this.setAttribute(element, propsKeys[i], props[propsKeys[i]])) {
                 events.callAttributeCreate(this, element, propsKeys[i], props[propsKeys[i]]);
             }
         }
@@ -27,6 +27,9 @@ class Attribute {
             name = beforeAttributeSet.hasOwnProperty(name) ? beforeAttributeSet.name : name;
             value = beforeAttributeSet.hasOwnProperty(value) ? beforeAttributeSet.value : value;
         }
+
+        if (!value && value !== 0)
+            return;
 
         element.setAttribute(name, value);
 
@@ -50,7 +53,7 @@ class Attribute {
         const props = Object.assign({}, newProps, oldProps);
 
         Object.keys(props).forEach(name => {
-            if(element.nodeType !== 1) return;
+            if (element.nodeType !== 1) return;
 
             let newVal = newProps[name];
             let oldVal = oldProps[name];
@@ -61,7 +64,7 @@ class Attribute {
                 return;
             }
 
-            if (newVal === '') {
+            if (!newVal && newVal !== 0) {
                 isChanged = this.removeAttribute(element, name);
             } else if (oldVal === '' || newVal !== oldVal) {
                 isChanged = this.setAttribute(element, name, newVal);
